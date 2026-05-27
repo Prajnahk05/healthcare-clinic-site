@@ -1,4 +1,4 @@
-import { ArrowRight, CalendarCheck, CheckCircle2, MessageCircle } from "lucide-react";
+import { ArrowRight, CalendarCheck, CheckCircle2 } from "lucide-react";
 import { AppointmentForm } from "../components/AppointmentForm.jsx";
 import { Button } from "../components/Button.jsx";
 import { EmergencyBanner } from "../components/CTA.jsx";
@@ -6,7 +6,7 @@ import { FAQ } from "../components/FAQ.jsx";
 import { SectionHeader } from "../components/SectionHeader.jsx";
 import { ServiceCard } from "../components/ServiceCard.jsx";
 import { Testimonials } from "../components/Testimonials.jsx";
-import { clinic, doctors, heroImage, phoneHref, serviceGroups, stats, whyChoose } from "../data/siteData.js";
+import { clinic, doctors, heroImage, serviceGroups, whyChoose } from "../data/siteData.js";
 
 export function Home() {
   const featuredServices = serviceGroups.flatMap((group) => group.services).slice(0, 6);
@@ -29,15 +29,6 @@ export function Home() {
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button href="#/contact"><CalendarCheck className="h-5 w-5" /> Book Appointment</Button>
-              <Button href={phoneHref(clinic.phone)} variant="secondary"><MessageCircle className="h-5 w-5" /> Contact Now</Button>
-            </div>
-            <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
-              {stats.map((stat) => (
-                <div key={stat.label} className="rounded-[8px] bg-white/80 p-4 text-center shadow-soft">
-                  <p className="text-2xl font-extrabold text-medical-teal">{stat.value}</p>
-                  <p className="mt-1 text-xs font-semibold text-slate-600">{stat.label}</p>
-                </div>
-              ))}
             </div>
           </div>
           <div className="relative">

@@ -26,9 +26,9 @@ export const clinic = {
   name: "ANJANADRI MEDICALS & CLINIC",
   subName: "LAB & DIAGNOSTICS",
   tagline: "Your Health, Our Commitment",
-  phone: "+91 98765 43210",
-  whatsapp: "+91 98765 43210",
-  email: "care@anjanadriclinic.com",
+  phone: "+91 96865 68804",
+  whatsapp: "+91 96865 68804",
+  email: "anjanadrihealthcare@gmail.com",
   address: "Anjanadri Medicals & Clinic, Main Road, Bengaluru, Karnataka",
   emergency: "+91 98765 43211",
   hours: "Mon - Sat: 8:00 AM - 9:00 PM, Sun: 9:00 AM - 2:00 PM",
@@ -262,7 +262,7 @@ export const appointmentDefaults = {
 
 export const ctaItems = [
   { label: "Book Appointment", icon: CalendarCheck, href: "#/contact" },
-  { label: "Contact Now", icon: MessageCircle, href: "tel:+919876543210" },
+  { label: "Contact Now", icon: MessageCircle, href: "tel:+919686568804" },
 ];
 
 export function phoneHref(value) {
