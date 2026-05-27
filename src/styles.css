@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #122033;
+  background: #f8fbfc;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.62);
+}
+
+.medical-grid {
+  background-image:
+    linear-gradient(rgba(29, 126, 208, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(29, 126, 208, 0.06) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+
+.section-pad {
+  @apply px-4 py-16 sm:px-6 lg:px-8 lg:py-24;
+}
+
+.container-max {
+  @apply mx-auto max-w-7xl;
+}
+
+.focus-ring {
+  @apply focus:outline-none focus:ring-4 focus:ring-teal-200;
+}
