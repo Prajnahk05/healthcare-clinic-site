@@ -3,6 +3,7 @@ import { FloatingActions } from "./components/FloatingActions.jsx";
 import { Footer } from "./components/Footer.jsx";
 import { Navbar } from "./components/Navbar.jsx";
 import { About } from "./pages/About.jsx";
+import { AdminUsers } from "./pages/AdminUsers.jsx";
 import { Contact } from "./pages/Contact.jsx";
 import { Doctors } from "./pages/Doctors.jsx";
 import { Home } from "./pages/Home.jsx";
@@ -20,6 +21,7 @@ const routes = {
   "#/packages": { title: "Health Packages | Anjanadri Medicals & Clinic", component: Packages },
   "#/medical-store": { title: "Medical Store | Anjanadri Medicals & Clinic", component: MedicalStore },
   "#/contact": { title: "Contact | Anjanadri Medicals & Clinic", component: Contact },
+  "#/admin-users": { title: "Admin Users | Anjanadri Medicals & Clinic", component: AdminUsers },
 };
 
 function currentHash() {

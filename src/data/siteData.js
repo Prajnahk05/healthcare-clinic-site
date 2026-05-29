@@ -29,7 +29,7 @@ export const clinic = {
   phone: "+91 96865 68804",
   whatsapp: "+91 96865 68804",
   email: "anjanadrihealthcare@gmail.com",
-  address: "Anjanadri Medicals & Clinic, Main Road, Bengaluru, Karnataka",
+  address: "Sri Rajarajeshwari Jothishya Mandir, 12, 1st cross rd, MEI Colony, Phase3, Laggere, Bengaluru, karnataka 560058",
   emergency: "+91 96865 68804",
   hours: "Mon - Sat: 8:00 AM - 9:00 PM, Sun: 9:00 AM - 2:00 PM",
 };
@@ -267,4 +267,8 @@ export const ctaItems = [
 
 export function phoneHref(value) {
   return `tel:${String(value).replace(/\s+/g, "")}`;
+}
+
+export function whatsappHref(value) {
+  return `https://wa.me/${String(value).replace(/\D/g, "")}`;
 }

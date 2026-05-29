@@ -1,23 +1,38 @@
-import { Clock, MapPin, Phone } from "lucide-react";
+import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { AppointmentForm } from "../components/AppointmentForm.jsx";
 import { Button } from "../components/Button.jsx";
 import { SectionHeader } from "../components/SectionHeader.jsx";
-import { clinic, contactCards, phoneHref } from "../data/siteData.js";
+import { clinic, contactCards, phoneHref, whatsappHref } from "../data/siteData.js";
 
 export function Contact() {
+  const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(clinic.address)}&output=embed`;
+  const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(clinic.address)}`;
+  const contactHref = {
+    Call: phoneHref(clinic.phone),
+    WhatsApp: whatsappHref(clinic.whatsapp),
+    Email: `mailto:${clinic.email}`,
+    Visit: mapHref,
+  };
+
   return (
     <>
       <section className="section-pad bg-gradient-to-br from-white to-blue-50">
         <div className="container-max">
           <SectionHeader eyebrow="Contact Us" title="Book, Call, or Visit the Clinic" text="Reach us for appointments, diagnostics, medicines, working hours, and emergency support." />
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {contactCards.map((item) => (
-              <article key={item.title} className="rounded-[8px] bg-white p-5 shadow-card">
-                <item.icon className="mb-4 h-7 w-7 text-medical-teal" />
-                <h3 className="font-bold text-medical-navy">{item.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{item.value}</p>
-              </article>
-            ))}
+            {contactCards.map((item) => {
+              const href = contactHref[item.title];
+              const CardTag = href ? "a" : "article";
+              const externalProps = item.title === "Visit" ? { target: "_blank", rel: "noreferrer" } : {};
+
+              return (
+                <CardTag key={item.title} href={href} {...externalProps} className="rounded-[8px] bg-white p-5 shadow-card transition hover:-translate-y-1 hover:shadow-lg">
+                  <item.icon className="mb-4 h-7 w-7 text-medical-teal" />
+                  <h3 className="font-bold text-medical-navy">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{item.value}</p>
+                </CardTag>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -45,9 +60,10 @@ export function Contact() {
           <div className="rounded-[8px] bg-white p-6 shadow-card">
             <h2 className="text-2xl font-extrabold text-medical-navy">Clinic Details</h2>
             <div className="mt-6 grid gap-4 text-sm text-slate-600">
-              <p className="flex gap-3"><Phone className="h-5 w-5 text-medical-teal" /> Phone: {clinic.phone}</p>
-              <p className="flex gap-3"><Phone className="h-5 w-5 text-medical-teal" /> WhatsApp: {clinic.whatsapp}</p>
-              <p className="flex gap-3"><MapPin className="h-5 w-5 text-medical-teal" /> {clinic.address}</p>
+              <a href={phoneHref(clinic.phone)} className="flex gap-3 hover:text-medical-teal"><Phone className="h-5 w-5 text-medical-teal" /> Phone: {clinic.phone}</a>
+              <a href={whatsappHref(clinic.whatsapp)} className="flex gap-3 hover:text-medical-teal"><MessageCircle className="h-5 w-5 text-medical-teal" /> WhatsApp: {clinic.whatsapp}</a>
+              <a href={`mailto:${clinic.email}`} className="flex gap-3 hover:text-medical-teal"><Mail className="h-5 w-5 text-medical-teal" /> Email: {clinic.email}</a>
+              <a href={mapHref} target="_blank" rel="noreferrer" className="flex gap-3 hover:text-medical-teal"><MapPin className="h-5 w-5 text-medical-teal" /> {clinic.address}</a>
               <p className="flex gap-3"><Clock className="h-5 w-5 text-medical-teal" /> {clinic.hours}</p>
             </div>
             <div className="mt-6 rounded-[8px] bg-red-50 p-5">
@@ -60,7 +76,7 @@ export function Contact() {
             className="h-[460px] w-full rounded-[8px] border-0 shadow-card"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps?q=Bengaluru%20Karnataka&output=embed"
+            src={mapSrc}
           />
         </div>
       </section>
