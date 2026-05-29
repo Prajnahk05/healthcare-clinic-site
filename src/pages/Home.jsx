@@ -1,5 +1,4 @@
 import { ArrowRight, CalendarCheck, CheckCircle2 } from "lucide-react";
-import { AppointmentForm } from "../components/AppointmentForm.jsx";
 import { Button } from "../components/Button.jsx";
 import { EmergencyBanner } from "../components/CTA.jsx";
 import { FAQ } from "../components/FAQ.jsx";
@@ -61,10 +60,10 @@ export function Home() {
       </section>
 
       <section className="section-pad bg-slate-50">
-        <div className="container-max grid items-center gap-10 lg:grid-cols-2">
+        <div className="container-max">
           <div>
             <SectionHeader align="left" eyebrow="Why Choose Us" title="Premium Care That Feels Practical" text="Built around trust, accuracy, affordability, and friendly care for every patient." />
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {whyChoose.map((item) => (
                 <div key={item.title} className="rounded-[8px] bg-white p-5 shadow-card">
                   <item.icon className="mb-4 h-7 w-7 text-medical-teal" />
@@ -74,7 +73,6 @@ export function Home() {
               ))}
             </div>
           </div>
-          <AppointmentForm />
         </div>
       </section>
 

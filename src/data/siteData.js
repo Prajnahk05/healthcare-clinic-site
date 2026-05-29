@@ -30,7 +30,7 @@ export const clinic = {
   whatsapp: "+91 96865 68804",
   email: "anjanadrihealthcare@gmail.com",
   address: "Anjanadri Medicals & Clinic, Main Road, Bengaluru, Karnataka",
-  emergency: "+91 98765 43211",
+  emergency: "+91 96865 68804",
   hours: "Mon - Sat: 8:00 AM - 9:00 PM, Sun: 9:00 AM - 2:00 PM",
 };
 
