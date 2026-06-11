@@ -3,7 +3,7 @@ import { useState } from "react";
 import { clinic, navLinks, phoneHref } from "../data/siteData.js";
 import { Button } from "./Button.jsx";
 
-export function Navbar({ route }) {
+export function Navbar({ route, onBookAppointment, onNavigate }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -47,6 +47,10 @@ export function Navbar({ route }) {
               <a
                 key={link.path}
                 href={link.path}
+                onClick={(event) => {
+                  event.preventDefault();
+                  onNavigate(link.path);
+                }}
                 className={`whitespace-nowrap rounded-full px-2 py-2 text-[11px] font-semibold transition 2xl:px-3 2xl:text-sm ${
                   active ? "bg-teal-50 text-medical-teal" : "text-slate-600 hover:bg-slate-50 hover:text-medical-navy"
                 }`}
@@ -58,7 +62,14 @@ export function Navbar({ route }) {
         </div>
 
         <div className="hidden shrink-0 items-center xl:flex">
-          <Button href="#/contact" className="whitespace-nowrap px-3 py-2.5 text-xs 2xl:px-5 2xl:text-sm">Book Appointment</Button>
+          <Button
+            as="button"
+            type="button"
+            onClick={onBookAppointment}
+            className="whitespace-nowrap px-3 py-2.5 text-xs 2xl:px-5 2xl:text-sm"
+          >
+            Book Appointment
+          </Button>
         </div>
 
         <button
@@ -77,7 +88,11 @@ export function Navbar({ route }) {
               <a
                 key={link.path}
                 href={link.path}
-                onClick={() => setOpen(false)}
+                onClick={(event) => {
+                  event.preventDefault();
+                  setOpen(false);
+                  onNavigate(link.path);
+                }}
                 className={`rounded-[8px] px-4 py-3 text-sm font-bold ${
                   link.path === route ? "bg-teal-50 text-medical-teal" : "text-slate-700 hover:bg-slate-50"
                 }`}
@@ -85,6 +100,17 @@ export function Navbar({ route }) {
                 {link.label}
               </a>
             ))}
+            <Button
+              as="button"
+              type="button"
+              onClick={() => {
+                setOpen(false);
+                onBookAppointment();
+              }}
+              className="mt-2 w-full"
+            >
+              Book Appointment
+            </Button>
           </div>
         </div>
       )}

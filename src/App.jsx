@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { AppointmentModal } from "./components/AppointmentModal.jsx";
 import { FloatingActions } from "./components/FloatingActions.jsx";
 import { Footer } from "./components/Footer.jsx";
 import { Navbar } from "./components/Navbar.jsx";
@@ -33,6 +34,7 @@ function currentHash() {
 
 export default function App() {
   const [route, setRoute] = useState(currentHash);
+  const [appointmentOpen, setAppointmentOpen] = useState(false);
 
   useEffect(() => {
     if (!window.location.hash) {
@@ -48,6 +50,19 @@ export default function App() {
   }, []);
 
   const ActivePage = useMemo(() => routes[route]?.component ?? Home, [route]);
+  const openAppointmentModal = () => setAppointmentOpen(true);
+  const closeAppointmentModal = () => setAppointmentOpen(false);
+  const navigateTo = (path) => {
+    if (!routes[path]) {
+      return;
+    }
+
+    if (window.location.hash !== path) {
+      window.location.hash = path;
+    }
+    setRoute(path);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   useEffect(() => {
     document.title = routes[route]?.title ?? routes["#/"].title;
@@ -62,12 +77,13 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-medical-ink">
-      <Navbar route={route} />
+      <Navbar route={route} onBookAppointment={openAppointmentModal} onNavigate={navigateTo} />
       <main>
-        <ActivePage />
+        <ActivePage onBookAppointment={openAppointmentModal} />
       </main>
       <Footer />
       <FloatingActions />
+      <AppointmentModal isOpen={appointmentOpen} onClose={closeAppointmentModal} />
     </div>
   );
 }

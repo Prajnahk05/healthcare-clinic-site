@@ -3,7 +3,7 @@ import { Button } from "../components/Button.jsx";
 import { SectionHeader } from "../components/SectionHeader.jsx";
 import { packages } from "../data/siteData.js";
 
-export function Packages() {
+export function Packages({ onBookAppointment }) {
   return (
     <section className="section-pad bg-gradient-to-br from-white via-slate-50 to-teal-50">
       <div className="container-max">
@@ -23,7 +23,7 @@ export function Packages() {
                   </span>
                 ))}
               </div>
-              <Button href="#/contact" className="mt-6 w-full"><CalendarCheck className="h-5 w-5" /> Book Now</Button>
+              <Button as="button" type="button" onClick={onBookAppointment} className="mt-6 w-full"><CalendarCheck className="h-5 w-5" /> Book Now</Button>
             </article>
           ))}
         </div>

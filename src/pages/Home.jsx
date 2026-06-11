@@ -7,7 +7,7 @@ import { ServiceCard } from "../components/ServiceCard.jsx";
 import { Testimonials } from "../components/Testimonials.jsx";
 import { clinic, doctors, heroImage, serviceGroups, whyChoose } from "../data/siteData.js";
 
-export function Home() {
+export function Home({ onBookAppointment }) {
   const featuredServices = serviceGroups.flatMap((group) => group.services).slice(0, 6);
 
   return (
@@ -27,7 +27,9 @@ export function Home() {
               Trusted doctors, accurate diagnostics, quality medicines, and compassionate patient care for families and children.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button href="#/contact"><CalendarCheck className="h-5 w-5" /> Book Appointment</Button>
+              <Button as="button" type="button" onClick={onBookAppointment}>
+                <CalendarCheck className="h-5 w-5" /> Book Appointment
+              </Button>
             </div>
           </div>
           <div className="relative">

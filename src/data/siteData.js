@@ -18,7 +18,6 @@ import {
   Sparkles,
   Stethoscope,
   Syringe,
-  Truck,
   Users,
 } from "lucide-react";
 
@@ -245,7 +244,6 @@ export const storeCategories = [
   { title: "Generic Medicines", icon: Pill },
   { title: "Baby Care", icon: Baby },
   { title: "Wellness Products", icon: HeartPulse },
-  { title: "Home Delivery", icon: Truck },
 ];
 
 export const contactCards = [

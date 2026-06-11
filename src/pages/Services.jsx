@@ -18,7 +18,12 @@ export function Services() {
               </div>
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {group.services.map((service) => (
-                  <ServiceCard key={service.title} {...service} text="Available with supportive staff and patient-friendly guidance." />
+                  <ServiceCard
+                    key={service.title}
+                    {...service}
+                    href={group.title === "Laboratory & Diagnostics" ? "#/lab-tests" : undefined}
+                    text="Available with supportive staff and patient-friendly guidance."
+                  />
                 ))}
               </div>
             </div>

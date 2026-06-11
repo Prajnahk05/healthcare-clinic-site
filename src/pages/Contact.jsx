@@ -39,9 +39,9 @@ export function Contact() {
 
       <section className="section-pad bg-white">
         <div className="container-max grid gap-8 lg:grid-cols-2">
-          <div>
+          <div className="rounded-[8px] border border-slate-100 bg-white p-6 shadow-card">
             <h2 className="mb-5 text-2xl font-extrabold text-medical-navy">Online Appointment Booking</h2>
-            <AppointmentForm />
+            <AppointmentForm compact />
           </div>
           <form className="rounded-[8px] border border-slate-100 bg-slate-50 p-6 shadow-card">
             <h2 className="mb-5 text-2xl font-extrabold text-medical-navy">Contact Form</h2>
