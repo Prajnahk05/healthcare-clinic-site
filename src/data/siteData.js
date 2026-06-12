@@ -226,7 +226,7 @@ export const faqs = [
   },
   {
     q: "Can I download reports online?",
-    a: "Yes, use the report portal UI with your registered mobile number and report ID.",
+    a: "Yes, use the report portal UI with your registered mobile number and OTP verification.",
   },
   {
     q: "Are home sample collections available?",
