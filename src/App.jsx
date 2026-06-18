@@ -18,7 +18,7 @@ const routes = {
   "#/about": { title: "About | Anjanadri Medicals & Clinic", component: About },
   "#/doctors": { title: "Doctors | Anjanadri Medicals & Clinic", component: Doctors },
   "#/services": { title: "Services | Anjanadri Medicals & Clinic", component: Services },
-  "#/lab-tests": { title: "Lab Tests | Anjanadri Medicals & Clinic", component: LabTests },
+  "#/lab-tests": { title: "My Report | Anjanadri Medicals & Clinic", component: LabTests },
   "#/packages": { title: "Health Packages | Anjanadri Medicals & Clinic", component: Packages },
   "#/medical-store": { title: "Medical Store | Anjanadri Medicals & Clinic", component: MedicalStore },
   "#/contact": { title: "Contact | Anjanadri Medicals & Clinic", component: Contact },

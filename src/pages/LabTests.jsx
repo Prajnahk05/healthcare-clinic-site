@@ -14,6 +14,7 @@ import {
 import { useMemo, useState } from "react";
 import { Button } from "../components/Button.jsx";
 import { SectionHeader } from "../components/SectionHeader.jsx";
+import { fetchPublishedReportsByMobile } from "../data/reportStore.js";
 import { clinic, phoneHref, whatsappHref } from "../data/siteData.js";
 
 const reportSteps = ["Sample Collected", "In Lab Testing", "Under Review", "Ready for Download"];
@@ -38,6 +39,8 @@ export function LabTests() {
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState("");
   const [verified, setVerified] = useState(false);
+  const [matchingReports, setMatchingReports] = useState([]);
+  const [reportError, setReportError] = useState("");
   const [openFaq, setOpenFaq] = useState(faqItems[0].q);
 
   const normalizedMobileNumber = mobileNumber.trim();
@@ -50,18 +53,29 @@ export function LabTests() {
     setOtpSent(true);
     setVerified(false);
     setOtp("");
+    setMatchingReports([]);
+    setReportError("");
   }
 
-  function handleVerify() {
+  async function handleVerify() {
     if (!canVerify) return;
-    setVerified(true);
+    setReportError("");
+    try {
+      const reports = await fetchPublishedReportsByMobile(normalizedMobileNumber);
+      setMatchingReports(reports);
+      setVerified(true);
+    } catch {
+      setReportError("We could not load reports right now. Please try again.");
+    }
   }
 
   function handleLogout() {
-    setPatientId("");
+    setMobileNumber("");
     setOtpSent(false);
     setOtp("");
     setVerified(false);
+    setMatchingReports([]);
+    setReportError("");
   }
 
   return (
@@ -178,20 +192,53 @@ export function LabTests() {
             </div>
 
             <div className="mt-7 rounded-[8px] border border-slate-100 bg-slate-50 p-5">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex items-start gap-3">
-                  <FileText className="mt-1 h-6 w-6 shrink-0 text-medical-teal" />
-                  <div>
-                    <h3 className="font-extrabold text-medical-navy">Clinical Report PDF</h3>
-                    <p className="mt-1 text-sm leading-6 text-slate-600">
-                      This digital report is confidential. Please consult your prescribing physician to interpret these results accurately.
-                    </p>
-                  </div>
+              <div className="flex items-start gap-3">
+                <FileText className="mt-1 h-6 w-6 shrink-0 text-medical-teal" />
+                <div>
+                  <h3 className="font-extrabold text-medical-navy">Clinical Reports</h3>
+                  <p className="mt-1 text-sm leading-6 text-slate-600">
+                    Published reports uploaded by the clinic admin will appear here after OTP verification.
+                  </p>
                 </div>
-                <Button as="button" type="button" disabled={!verified}>
-                  <Download className="h-5 w-5" /> Download
-                </Button>
               </div>
+
+              {!verified && (
+                <div className="mt-5 rounded-[8px] border border-slate-100 bg-white p-4 text-sm font-semibold text-slate-600">
+                  Verify your registered mobile number to view available downloads.
+                </div>
+              )}
+
+              {verified && matchingReports.length === 0 && (
+                <div className="mt-5 rounded-[8px] border border-amber-100 bg-amber-50 p-4 text-sm font-semibold text-amber-800">
+                  No published reports are available for {normalizedMobileNumber}. Please contact lab support if your sample was already collected.
+                </div>
+              )}
+
+              {reportError && (
+                <div className="mt-5 rounded-[8px] border border-red-100 bg-red-50 p-4 text-sm font-semibold text-red-700">
+                  {reportError}
+                </div>
+              )}
+
+              {verified && matchingReports.length > 0 && (
+                <div className="mt-5 grid gap-3">
+                  {matchingReports.map((report) => (
+                    <div key={report.id} className="flex flex-col gap-4 rounded-[8px] border border-slate-100 bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
+                      <div>
+                        <h4 className="font-extrabold text-medical-navy">{report.title}</h4>
+                        <p className="mt-1 text-sm text-slate-600">
+                          {report.patientName} · {report.reportDate}
+                        </p>
+                        <p className="mt-1 text-xs font-semibold text-slate-500">{report.fileName}</p>
+                      </div>
+                      <Button as="a" href={report.fileData} download={report.fileName} className="shrink-0">
+                        <Download className="h-5 w-5" /> Download
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
               <p className="mt-4 flex items-center gap-2 text-xs font-semibold text-slate-500">
                 <LockKeyhole className="h-4 w-4" /> Session automatically clears when you use Secure Logout.
               </p>

@@ -1,6 +1,7 @@
 import { CalendarCheck, CheckCircle2, Loader2 } from "lucide-react";
 import { useState } from "react";
-import { supabase } from "../lib/supabaseClient.js";
+import { addAppointment } from "../data/appointmentStore.js";
+import { labTests, packages } from "../data/siteData.js";
 import { Button } from "./Button.jsx";
 
 const doctors = [
@@ -8,11 +9,15 @@ const doctors = [
   "Dr. Niranjan - Pediatrics Specialist",
 ];
 
+const consultationServices = ["General Consultation", "Orthopedic Consultation", "Pediatrics Consultation"];
+
 const initialForm = {
   patientName: "",
   mobileNumber: "",
   email: "",
+  appointmentType: "Doctor Consultation",
   doctor: doctors[0],
+  serviceName: consultationServices[0],
   appointmentDate: "",
   appointmentTime: "",
   notes: "",
@@ -53,6 +58,10 @@ export function AppointmentForm({ compact = false }) {
       nextErrors.appointmentTime = "Please select an appointment time.";
     }
 
+    if (!form.serviceName.trim()) {
+      nextErrors.serviceName = "Please select the test or service.";
+    }
+
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
   };
@@ -65,38 +74,33 @@ export function AppointmentForm({ compact = false }) {
       return;
     }
 
-    if (!supabase) {
-      setStatus({
-        type: "error",
-        message: "Appointment booking is not configured yet. Please contact the clinic directly.",
-      });
-      return;
-    }
-
     setSubmitting(true);
     setStatus({ type: "", message: "" });
 
-    const payload = {
-      patient_name: form.patientName.trim(),
-      mobile_number: form.mobileNumber.trim(),
-      email: form.email.trim() || null,
+    const appointment = {
+      patientName: form.patientName.trim(),
+      mobileNumber: form.mobileNumber.trim(),
+      email: form.email.trim(),
+      appointmentType: form.appointmentType,
       doctor: form.doctor,
-      appointment_date: form.appointmentDate,
-      appointment_time: form.appointmentTime,
-      symptoms_notes: form.notes.trim() || null,
+      serviceName: form.serviceName,
+      appointmentDate: form.appointmentDate,
+      appointmentTime: form.appointmentTime,
+      notes: form.notes.trim(),
     };
 
-    const { error } = await supabase.from("appointments").insert(payload);
-
-    setSubmitting(false);
-
-    if (error) {
+    try {
+      await addAppointment(appointment);
+    } catch {
+      setSubmitting(false);
       setStatus({
         type: "error",
         message: "We could not submit your appointment right now. Please try again.",
       });
       return;
     }
+
+    setSubmitting(false);
 
     setForm(initialForm);
     setErrors({});
@@ -174,6 +178,53 @@ export function AppointmentForm({ compact = false }) {
               <option key={item}>{item}</option>
             ))}
           </select>
+        </div>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label htmlFor="appointmentType" className={labelClass}>Booking For</label>
+          <select
+            id="appointmentType"
+            className={`${inputClass} mt-1`}
+            value={form.appointmentType}
+            onChange={(event) => {
+              const value = event.target.value;
+              updateField("appointmentType", value);
+              updateField(
+                "serviceName",
+                value === "Health Package" ? packages[0].title : value === "Lab Test" ? labTests[0].name : consultationServices[0]
+              );
+            }}
+          >
+            <option>Doctor Consultation</option>
+            <option>Lab Test</option>
+            <option>Health Package</option>
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="serviceName" className={labelClass}>
+            {form.appointmentType === "Health Package" ? "Select Package" : "Select Test / Service"}
+          </label>
+          <select
+            id="serviceName"
+            className={`${inputClass} mt-1`}
+            value={form.serviceName}
+            onChange={(event) => updateField("serviceName", event.target.value)}
+            aria-invalid={Boolean(errors.serviceName)}
+            aria-describedby={errors.serviceName ? "serviceName-error" : undefined}
+          >
+            {(form.appointmentType === "Health Package"
+              ? packages.map((item) => item.title)
+              : form.appointmentType === "Lab Test"
+                ? labTests.map((item) => item.name)
+                : consultationServices
+            ).map((item) => (
+              <option key={item}>{item}</option>
+            ))}
+          </select>
+          {errors.serviceName && <p id="serviceName-error" className={errorClass}>{errors.serviceName}</p>}
         </div>
       </div>
 

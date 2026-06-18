@@ -38,7 +38,7 @@ export const navLinks = [
   { label: "About", path: "#/about" },
   { label: "Doctors", path: "#/doctors" },
   { label: "Services", path: "#/services" },
-  { label: "Lab Tests", path: "#/lab-tests" },
+  { label: "My Report", path: "#/lab-tests" },
   { label: "Packages", path: "#/packages" },
   { label: "Medical Store", path: "#/medical-store" },
   { label: "Contact", path: "#/contact" },
